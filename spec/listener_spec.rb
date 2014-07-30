@@ -2,7 +2,7 @@ require 'rspec'
 require_relative '../lib/listener.rb'
 
 describe Listener do
-  result = Listener.listen("reserve Hopper Tuesday at 5pm")
+  result = Listener.listen("reserve Hopper Tuesday at 5am")
   it 'understands the reserve command' do
     expect(result[:command]).to eq(:reserve)
   end
@@ -14,8 +14,11 @@ describe Listener do
   it 'parses days' do
     expect(result[:day]).to eq('Tuesday')
   end
-  
+end
+
+describe JarvisTime do
+  input = "reserve Hopper Tuesday at 5am"
   it 'parses time' do
-    expect(result[:time]).to eq(1700)
+    expect(JarvisTime.parse(input)).to eq(500)
   end
 end
