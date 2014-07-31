@@ -1,4 +1,4 @@
-class JarvisTime
+class TimeUtils
   # Finds number and am/pm info in command, converts to military time
   def self.parse(command)
     hour = /(\d+)/.match(command)[0]
