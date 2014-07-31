@@ -14,11 +14,8 @@ describe Listener do
   it 'parses days' do
     expect(result[:day]).to eq('Tuesday')
   end
-end
 
-describe JarvisTime do
-  input = "reserve Hopper Tuesday at 5am"
-  it 'parses time' do
-    expect(JarvisTime.parse(input)).to eq(500)
+  it 'parses times' do
+    expect(result[:time]).to eq(500)
   end
 end

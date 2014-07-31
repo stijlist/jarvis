@@ -1,3 +1,5 @@
+require_relative './time_utils.rb'
+
 class Listener
 
   COMMANDS = ["reserve"] # make set?
@@ -8,31 +10,15 @@ class Listener
   def self.listen(command)
     parsed_input = command.split
     
-    puts parsed_input
-    
     # & -- set intersection
     parsed_command = (COMMANDS & parsed_input)[0].to_sym
     parsed_room = (ROOMS & parsed_input)[0]
     parsed_day = (DAYS & parsed_input)[0]
+    parsed_time = JarvisTime.parse(command)
     
     {command: parsed_command, 
      room: parsed_room,
-     day: parsed_day}
-  end
-end
-
-class JarvisTime
-
-  # Finds number and am/pm info in command, converts to military time
-  def self.parse(command)
-    hour = /(\d+)/.match(command)[0]
-    period = /((a|A)|(p|P))(m|M)/.match(command)[0] # match am/pm
-    
-    if period.downcase == 'am'
-        time = hour + '00'
-    else
-        time = (12 + hour.to_i).to_s + '00'
-    end
-    return time.to_i
+     day: parsed_day,
+     time: parsed_time}
   end
 end
