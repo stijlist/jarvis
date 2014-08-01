@@ -15,19 +15,16 @@ class Authentication
     JARVIS_GOOGLE_SCOPE = "https://www.googleapis.com/auth/calendar"
     GOOGLE_AUD_URL = "https://accounts.google.com/o/oauth2/token"
     GOOGLE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer"
-    attr_accessor :token
-    # create and sign jwt
-    # use jwt to get authentication token -> returns a auth token
-    def initialize # hardcoded file path for now
-        # TODO: there is obviously a better way to do this
-        # binding.pry
+    
+    attr_accessor :token, :response_dict
+
+    def initialize
         uri = URI(GOOGLE_AUD_URL)
-        grant_type = GOOGLE_GRANT_TYPE #URI.encode_www_form_component(GOOGLE_GRANT_TYPE)
-        binding.pry
-        token_dictionary = Net::HTTP.post_form(uri, {"grant_type" => grant_type,
-                                                      "assertion" => make_jwt})
-        @token = token_dictionary['access_token']
-        puts @token
+        grant_type = GOOGLE_GRANT_TYPE
+        response_body = Net::HTTP.post_form(uri, {"grant_type" => grant_type,
+                                                      "assertion" => make_jwt}).body
+        @response_dict = JSON.parse(response_body)
+        @token = @response_dict["access_token"]
     end
     
     def make_jwt
@@ -35,7 +32,7 @@ class Authentication
         secret_dictionary = JSON.parse(secret_json)
         iss = secret_dictionary['client_email']
         iat = DateTime.now.to_time.strftime('%s').to_i
-        exp = iat + 60 * 60 # or is this just 60 * 60
+        exp = iat + 60 * 60 # expires 1 hour (60*60) from now
         jwt_claim = {
            "iss" => iss,
            "scope" => JARVIS_GOOGLE_SCOPE,
@@ -43,20 +40,31 @@ class Authentication
            "exp" => exp,
            "iat" => iat
         }
-#        puts 'private key ' + secret_dictionary['private_key']
-#       puts 'jwt claim: ' + jwt_claim.to_json.to_s
-        
+
         ssl_key = OpenSSL::PKey::RSA.new secret_dictionary['private_key']
         JWT.encode(jwt_claim, ssl_key, "RS256")
     end
 end
 
 class Calendar
-    # initialize with auth token
+    JARVIS_TEST_CALENDAR_ID = "27oim6lpetk763ipds6au4cmgc@group.calendar.google.com"
+    API_BASE = "https://www.googleapis.com/calendar/v3/calendars/#{JARVIS_TEST_CALENDAR_ID}"
+        # todo: factor out id
+    
+    attr_accessor :id
+    
+    def initialize(id = JARVIS_TEST_CALENDAR_ID) 
+        @auth_token = Authentication.new.token
+        @id = id
+    end
+    
+    def events
+        #use nhttp to make get request to go
+        events_url = API_BASE + "/events?access_token=#{@auth_token}"
+        response = Net::HTTP.get(URI(events_url))
+        JSON.parse(response)["items"]
+        # wrap in class pulling out all google stuff
+            # look at items, make sure it's there!
+            # ANOTHER class handles the internals of items
+    end
 end
-
-# header: {"alg":"RS256","typ":"JWT"} ## encode with base64
-# payload ## stringified version of JSON object, encode with base64
-# signature ## take header, 
-
-# base64(header) DOT base64(payload) DOT sha256 ( base64(header) DOT base64(payload) )
