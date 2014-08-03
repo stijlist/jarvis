@@ -1,0 +1,14 @@
+PATH
+  remote: /Users/bert/source/forked/ruby-jwt/pkg
+  specs:
+    jwt (1.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  jwt!

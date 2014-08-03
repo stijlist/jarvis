@@ -6,7 +6,6 @@ require 'date'
 require 'json'
 require 'jwt'
 require 'net/http'
-require 'pry'
 require 'digest/sha2'
 require 'openssl'
 
@@ -41,8 +40,9 @@ class Authentication
            "iat" => iat
         }
 
-        ssl_key = OpenSSL::PKey::RSA.new secret_dictionary['private_key']
-        JWT.encode(jwt_claim, ssl_key, "RS256")
+        # ssl_key = OpenSSL::PKey::RSA.new secret_dictionary['private_key']
+        # JWT.encode(jwt_claim, ssl_key, "RS256")
+        JWT.encode(jwt_claim, secret_dictionary['private_key'], "RS256")
     end
 end
 
