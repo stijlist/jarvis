@@ -1,8 +1,16 @@
 require_relative '../lib/zulip.rb'
 
 describe Zulip do
-  jarvis_key = 'jA3jG0jzbcHYuiYMuWIEKMhvjtCnRSG0'
-  jarvis_email = 'jarvis-bot@students.hackerschool.com'
+  jarvis_key = ENV['JARVIS_API_KEY']
+  jarvis_email = ENV['JARVIS_EMAIL_ADDRESS']
+
+  # NOTE: this is probably a bad practice, as my unit tests
+  # are likely the wrong place to be concerned with devops/config 
+  it 'is accessing the correct api keys from the environment' do
+    expect(jarvis_key).not_to be_nil
+    expect(jarvis_email).not_to be_nil
+  end
+
   it 'is initialized with an api key' do
     Zulip::Client.new(jarvis_email, jarvis_key)
   end
