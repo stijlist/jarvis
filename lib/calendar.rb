@@ -6,7 +6,6 @@ require 'date'
 require 'json'
 require 'jwt'
 require 'net/http'
-require 'pry'
 require 'digest/sha2'
 require 'openssl'
 
@@ -50,7 +49,8 @@ class Calendar
     JARVIS_TEST_CALENDAR_ID = "27oim6lpetk763ipds6au4cmgc@group.calendar.google.com"
     API_BASE = "https://www.googleapis.com/calendar/v3/calendars/#{JARVIS_TEST_CALENDAR_ID}"
         # todo: factor out id
-    
+    API_KEY = "AIzaSyAc7rWMMFNE90sxLCfuylLUASfMqLY4XX8"
+    JARVIS_SECRET_FILE_2 = "../Jarvis-a71ef323eab2.p12" 
     attr_accessor :id
     
     def initialize(id = JARVIS_TEST_CALENDAR_ID) 
@@ -67,4 +67,19 @@ class Calendar
             # look at items, make sure it's there!
             # ANOTHER class handles the internals of items
     end
+    
+        
+    def quick_add(text)
+        quick_add_url = API_BASE + "/events/quickAdd"
+
+        uri = URI(quick_add_url)
+        req = Net::HTTP::Post.new(uri)
+        req.set_form_data('key' => API_KEY, 'text' => text)
+        req['Authorization'] = "Bearer #{@auth_token}"
+        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+            http.request(req)
+        end
+        JSON.parse res.body
+    end
+    
 end
