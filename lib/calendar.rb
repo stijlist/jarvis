@@ -59,10 +59,10 @@ class Calendar
     end
     
     def events
-        #use nhttp to make get request to go
+        #use http to make get request to google
         events_url = API_BASE + "/events?access_token=#{@auth_token}"
         response = Net::HTTP.get(URI(events_url))
-        JSON.parse(response)["items"]
+        JSON.parse(response)['items']
         # wrap in class pulling out all google stuff
             # look at items, make sure it's there!
             # ANOTHER class handles the internals of items
@@ -70,16 +70,52 @@ class Calendar
     
         
     def quick_add(text)
-        quick_add_url = API_BASE + "/events/quickAdd"
-
-        uri = URI(quick_add_url)
-        req = Net::HTTP::Post.new(uri)
-        req.set_form_data('key' => API_KEY, 'text' => text)
-        req['Authorization'] = "Bearer #{@auth_token}"
-        res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-            http.request(req)
-        end
-        JSON.parse res.body
+        res = post_api_request("/events/quickAdd", {'text' => text}, nil)
+        JSON.parse(res.body)
     end
     
+# Add a calendar event
+# 
+# start_time - Ruby DateTime object, must be before end_time and have its time
+#              zone offset correctly set (e.g. start_time.new_offset("-04:00"))
+# end_time - Ruby DateTime object, must be after start_time and have its time
+#            zone offset correctly set (e.g. start_time.new_offset("-04:00"))
+# room - string, will be set as event location
+# description - string, will be set as event summary (or 'title' to us normal people)
+#
+# Returns ????
+    def add(start_time, end_time, room, description)
+        params = {
+            "end" => {
+                "dateTime" => end_time.rfc3339
+            },
+            "start" => {
+                "dateTime" => start_time.rfc3339
+            },
+            "location" => room,
+            "summary" => description
+        }.to_json
+    
+        res = post_api_request("/events", nil, params)
+        JSON.parse(res.body)
+    end
+    
+    private
+        def post_api_request(relative_url, form_data, request_body)
+            uri = URI(API_BASE + relative_url)
+            req = Net::HTTP::Post.new(uri)
+            req.set_form_data(form_data) if form_data
+            if request_body
+                req.body = request_body
+                req['Content-Type'] = 'application/json'
+            end
+            req['Authorization'] = "Bearer #{@auth_token}"
+            res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+                http.request(req)
+            end
+            res
+        end
+    
+#     d = DateTime.new(2014,8,9,10,35)
+#     d.new_offset("-04:00").rfc3339
 end
