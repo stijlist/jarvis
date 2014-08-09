@@ -49,7 +49,6 @@ class Calendar
     JARVIS_TEST_CALENDAR_ID = "27oim6lpetk763ipds6au4cmgc@group.calendar.google.com"
     API_BASE = "https://www.googleapis.com/calendar/v3/calendars/#{JARVIS_TEST_CALENDAR_ID}"
         # todo: factor out id
-    API_KEY = "AIzaSyAc7rWMMFNE90sxLCfuylLUASfMqLY4XX8"
     JARVIS_SECRET_FILE_2 = "../Jarvis-a71ef323eab2.p12" 
     attr_accessor :id
     
