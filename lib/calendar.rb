@@ -1,5 +1,3 @@
-# require_relative './time_utils.rb'
-
 # insert event into calendar, at given time, in given room
 # default to one hour
 # use organizer name
@@ -27,7 +25,10 @@ class Authentication
         @response_dict = JSON.parse(response_body)
         @token = @response_dict["access_token"]
     end
-    
+
+# Creates a JSON web token according to Google API specifications
+#
+# Returns the jwt   
     def make_jwt
         secret_json = File.read(File.join(File.expand_path(File.dirname(__FILE__)), JARVIS_SECRET_PATH))
         secret_dictionary = JSON.parse(secret_json)
@@ -58,7 +59,10 @@ class Calendar
         @auth_token = Authentication.new.token
         @id = id
     end
-    
+
+# Gets a list of events scheduled on a given calendar
+#
+# Returns a list of hashes, each representing one event 
     def events
         #use http to make get request to google
         events_url = API_BASE + "/events?access_token=#{@auth_token}"
@@ -69,7 +73,11 @@ class Calendar
             # ANOTHER class handles the internals of items
     end
     
-        
+# Quick adds a calendar event
+# 
+# text          - the text sent to the Google Calendar API 
+#
+# Returns the JSON body of the response        
     def quick_add(text)
         res = post_api_request("/events/quickAdd", {'text' => text}, nil)
         JSON.parse(res.body)
@@ -77,14 +85,14 @@ class Calendar
     
 # Add a calendar event
 # 
-# start_time - Ruby DateTime object, must be before end_time and have its time
-#              zone offset correctly set (e.g. start_time.new_offset("-04:00"))
-# end_time - Ruby DateTime object, must be after start_time and have its time
-#            zone offset correctly set (e.g. end_time.new_offset("-04:00"))
-# room - string, will be set as event location
-# description - string, will be set as event summary (or 'title' to us normal people)
+# start_time    - Ruby DateTime object, must be before end_time and have its time
+#                 zone offset correctly set (e.g. start_time.new_offset("-04:00"))
+# end_time      - Ruby DateTime object, must be after start_time and have its time
+#                 zone offset correctly set (e.g. end_time.new_offset("-04:00"))
+# room          - string, will be set as event location
+# description   - string, will be set as event summary (or 'title' to us normal people)
 #
-# Returns ????
+# Returns the JSON body of the response
     def add(start_time, end_time, room, description)
         params = {
             "end" => {
@@ -105,9 +113,9 @@ class Calendar
 # 
 # request_start - Ruby DateTime object, must be before request_end and have its time
 #                 zone offset correctly set (e.g. request_start.new_offset("-04:00"))
-# request_end - Ruby DateTime object, must be after request_start and have its time
-#               zone offset correctly set (e.g. request_end.new_offset("-04:00"))
-# room - string, will be used to find overlapping locations
+# request_end   - Ruby DateTime object, must be after request_start and have its time
+#                 zone offset correctly set (e.g. request_end.new_offset("-04:00"))
+# room          - string, will be used to find overlapping locations
 #
 # Returns true if proposed time/room combination can be scheduled, and
 #         false if it overlaps with already scheduled events
@@ -134,6 +142,15 @@ class Calendar
     end
     
     private
+    
+# Sends a post request containing either query parameters or a JSON request body
+# 
+# relative_url  - string indicating the URL relative to API_BASE
+# form_data     - hash containing query parameters
+#                 if nil, method assumes that request_body is present
+# request_body  - JSON string containing request body
+#
+# Returns Net::HTTP response object
         def post_api_request(relative_url, form_data, request_body)
             uri = URI(API_BASE + relative_url)
             req = Net::HTTP::Post.new(uri)
@@ -148,7 +165,4 @@ class Calendar
             end
             res
         end
-    
-#     d = DateTime.new(2014,8,9,10,35)
-#     d.new_offset("-04:00").rfc3339
 end
