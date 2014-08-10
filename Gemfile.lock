@@ -14,11 +14,9 @@ GEM
     rspec-mocks (3.0.3)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.3)
-    vcr (2.9.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   rspec
-  vcr
