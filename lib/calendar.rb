@@ -1,3 +1,5 @@
+# require_relative './time_utils.rb'
+
 # insert event into calendar, at given time, in given room
 # default to one hour
 # use organizer name
@@ -78,7 +80,7 @@ class Calendar
 # start_time - Ruby DateTime object, must be before end_time and have its time
 #              zone offset correctly set (e.g. start_time.new_offset("-04:00"))
 # end_time - Ruby DateTime object, must be after start_time and have its time
-#            zone offset correctly set (e.g. start_time.new_offset("-04:00"))
+#            zone offset correctly set (e.g. end_time.new_offset("-04:00"))
 # room - string, will be set as event location
 # description - string, will be set as event summary (or 'title' to us normal people)
 #
@@ -97,6 +99,38 @@ class Calendar
     
         res = post_api_request("/events", nil, params)
         JSON.parse(res.body)
+    end
+
+# Check whether a proposed event overlaps temporally/spatially with any already scheduled events
+# 
+# request_start - Ruby DateTime object, must be before request_end and have its time
+#                 zone offset correctly set (e.g. request_start.new_offset("-04:00"))
+# request_end - Ruby DateTime object, must be after request_start and have its time
+#               zone offset correctly set (e.g. request_end.new_offset("-04:00"))
+# room - string, will be used to find overlapping locations
+#
+# Returns true if proposed time/room combination can be scheduled, and
+#         false if it overlaps with already scheduled events
+    def bookable_for?(request_start, request_end, request_room)
+    
+        self.events.each do |event|
+            event_start = DateTime.rfc3339(event['start']['dateTime']) if event['start']['dateTime']
+            event_end = DateTime.rfc3339(event['end']['dateTime']) if event['end']['dateTime']
+            event_room = event['location']
+            
+            if event_start and event_end and event_room  # else something hasn't been specified for event, and it can't overlap?
+                                                            # or it's just a date -- do we care?
+                if event_room == request_room
+                    
+                    # not (end1 < start2 or end2 < start1) --- (http://c2.com/cgi/wiki?TestIfDateRangesOverlap)
+                    # http://makandracards.com/makandra/984-test-if-two-date-ranges-overlap-in-ruby-or-rails
+                    if ((request_start - event_end) * (event_start - request_end)) >= 0
+                        return false
+                    end
+                end    
+            end
+        end
+        return true
     end
     
     private

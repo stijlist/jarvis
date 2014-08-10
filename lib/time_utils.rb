@@ -11,4 +11,12 @@ class TimeUtils
     end
     return time.to_i
   end
+  
+  def self.before(time1, time2)
+    return time1 <= time2
+  end
+  
+  def self.after(time1, time2)
+    return time1 > time2
+  end
 end
