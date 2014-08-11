@@ -15,7 +15,7 @@ describe Zulip do
     Zulip::Client.new(jarvis_email, jarvis_key)
   end
 
-  it 'can send messages' do
+  xit 'can send messages' do
     c = Zulip::Client.new(jarvis_email, jarvis_key)
     response = c.send_message!('test-bot',
                                'This message is merely a placeholder.',
@@ -24,23 +24,32 @@ describe Zulip do
     expect(response.id).not_to be_nil
   end
 
-  xit 'can subscribe to messages it is @tagged in' do
+  it 'can register for stream updates' do
+    c = Zulip::Client.new(jarvis_email, jarvis_key)
+    c.register_for_stream('test-bot')
+    expect(c.streams).not_to be_empty
+  end
+
+  it 'can poll zulip for updates to a stream' do
+    c = Zulip::Client.new(jarvis_email, jarvis_key)
+    c.register_for_stream('test-bot')
+    c.poll(c.streams.first)
+  end
+
+  it 'can return a queue for a stream' do
+    c = Zulip::Client.new(jarvis_email, jarvis_key)
+    q = c.queue_for_stream('test-bot')
+  end
+
+  xit 'can retrieve new messages from a queue' do
     client = Zulip::Client.new(jarvis_email, jarvis_key)
-    client.subscribe_to_stream!('test-bots')
-    test_message = 'hi, @**jarvis** !'
-    Kernel.system('../zulip_test_bot_message_send.sh', test_message)
-    expect(client.messages.include?(test_message)).to be_truthy
+    client.register_for_stream('test-bot')
+    require 'pry'
+    binding.pry
+    q = client.queue_for_stream('test-bot')
+    msg = q.pop
+    expect(msg.content).not_to be_nil
+    expect(msg.id).not_to be_nil
+    expect(msg.user).not_to be_nil
   end
 end
-    
-# zulip = Zulip::Client.new(key)
-# stream = Zulip::Stream.new(options)
-# # options: email, key, 
-# stream = zulip.stream.new('')
-# stream.messages.callback do |message| # will be run every time
-#   # run code here
-# end
-# 
-# stream.messages.each do # batch job
-# 
-# stream.messages.callbacks # returns a list of procs
