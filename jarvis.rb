@@ -19,7 +19,6 @@ class Jarvis
     zulip.send_message('jarvis-testing', 'Jarvis online.', 'test-bot')
     
     zulip.stream_messages do |message|
-        binding.pry
         stream = message.stream
         if message.content.match(/\@jarvis/)
             begin
