@@ -4,21 +4,24 @@ require 'zulip'
 
 class Jarvis
     config = {greeting: 'Jarvis is online.',
-              stream: 'test-bot'}
-
+              streams: File.read('./streams_filtered').lines.map(&:chomp)}
 
     cal = Calendar.new
     zulip = Zulip::Client.new do |config|
         config.email_address = ENV.fetch( 'ZULIP_JARVIS_EMAIL' )
         config.api_key = ENV.fetch( 'ZULIP_JARVIS_API_KEY' )
     end
-    stream = config.fetch(:stream)
 
-    zulip.subscribe(stream)
-    zulip.send_message('jarvis-testing', 'Hello.', 'test-bot')
+    # config.fetch(:streams).each do |stream|
+    #     zulip.subscribe(stream)
+    # end
+
+    zulip.send_message('jarvis-testing', 'Jarvis online.', 'test-bot')
     
     zulip.stream_messages do |message|
-        if message.content.match /\@jarvis/
+        binding.pry
+        stream = message.stream
+        if message.content.match(/\@jarvis/)
             begin
                 parsed_message = Listener.listen(message.content, message.sender_full_name)
                 
@@ -29,8 +32,9 @@ class Jarvis
              
                 bookable = cal.bookable_for?(request_start, request_end, room)
                 if bookable
-                    cal.add(request_start, request_end, room, description)
-                    response = "Booked #{room} on #{request_start.strftime("%A, %B %d from %H:%M")} to #{request_end.strftime("%H:%M")} for #{description}."
+                    event = cal.add(request_start, request_end, room, description)
+                    link = event['htmlLink']
+                    response = "Booked #{room} on #{request_start.strftime("%A, %B %d from %H:%M")} to #{request_end.strftime("%H:%M")} for #{description}: [#{link}](#{link})"
                 else
                     response = "#{room} is busy #{request_start.strftime("at %H:%M on %A, %B %d")}."
                 end
