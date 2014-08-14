@@ -7,6 +7,6 @@ integrating with Google Calendar.
 Syntax:
 
     Jarvis reserve <room> <day> at <time>
-    Jarvis when is <room> available <day>
-    Jarvis what rooms are available <day> at <time>
+    Jarvis when is <room> available <day> (not yet implemented)
+    Jarvis what rooms are available <day> at <time> (not yet implemented)
 
