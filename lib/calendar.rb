@@ -30,9 +30,7 @@ class Authentication
 #
 # Returns the jwt   
     def make_jwt
-        secret_json = File.read(File.join(File.expand_path(File.dirname(__FILE__)), JARVIS_SECRET_PATH))
-        secret_dictionary = JSON.parse(secret_json)
-        iss = secret_dictionary['client_email']
+        iss = ENV.fetch('GOOGLE_JARVIS_CLIENT_EMAIL') 
         iat = DateTime.now.to_time.strftime('%s').to_i
         exp = iat + 60 * 60 # expires 1 hour (60*60) from now
         jwt_claim = {
@@ -43,7 +41,7 @@ class Authentication
            "iat" => iat
         }
 
-        ssl_key = OpenSSL::PKey::RSA.new secret_dictionary['private_key']
+        ssl_key = OpenSSL::PKey::RSA.new ENV.fetch('GOOGLE_JARVIS_PRIVATE_KEY') 
         JWT.encode(jwt_claim, ssl_key, "RS256")
     end
 end
