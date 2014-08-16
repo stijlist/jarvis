@@ -16,11 +16,11 @@ class Jarvis
     #     zulip.subscribe(stream)
     # end
 
-    zulip.send_message('jarvis-testing', 'Jarvis online.', 'test-bot')
+    zulip.send_message('jarvis-testing', config['greeting'], 'test-bot')
     
     zulip.stream_messages do |message|
         stream = message.stream
-        if message.content.match(/\@jarvis/)
+        if message.content.match(/(\@jarvis|\@\*\*jarvis\*\*)/)
             begin
                 parsed_message = Listener.listen(message.content, message.sender_full_name)
                 
