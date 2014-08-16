@@ -37,7 +37,7 @@ class Jarvis
                 else
                     response = "#{room} is busy #{request_start.strftime("at %H:%M on %A, %B %d")}."
                 end
-            rescue FailedToParse => e
+            rescue Listener::FailedToParse => e
                 response = e.message
             end
             zulip.send_message(message.subject, response, stream)

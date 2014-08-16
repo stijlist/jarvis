@@ -40,7 +40,6 @@ class Listener
          date: parsed_date,
          description: description}
     end
+    class FailedToParse < StandardError; end 
 end
 
-class FailedToParse < StandardError
-end 
