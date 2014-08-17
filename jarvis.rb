@@ -16,7 +16,7 @@ class Jarvis
 #     zulip.subscribe(stream)
   # end
 
-  zulip.send_message('jarvis-testing', config['greeting'], 'test-bot')
+  zulip.send_message('jarvis-testing', config[:greeting], 'test-bot')
   
   zulip.stream_messages do |message|
     stream = message.stream
