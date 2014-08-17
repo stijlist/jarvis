@@ -60,7 +60,7 @@ class Calendar
 # Returns a list of hashes, each representing one event 
   def events
     #use http to make get request to google
-    events_url = API_BASE + "/events?access_token=#{@auth_token}"
+    events_url = @api_base + "/events?access_token=#{@auth_token}"
     response = Net::HTTP.get(URI(events_url))
     JSON.parse(response)['items']
     # wrap in class pulling out all google stuff
@@ -140,14 +140,14 @@ private
 
 # Sends a post request containing either query parameters or a JSON request body
 # 
-# relative_url  - string indicating the URL relative to API_BASE
+# relative_url  - string indicating the URL relative to @api_base
 # form_data     - hash containing query parameters
 #                 if nil, method assumes that request_body is present
 # request_body  - JSON string containing request body
 #
 # Returns Net::HTTP response object
   def post_api_request(relative_url, form_data, request_body)
-    uri = URI(API_BASE + relative_url)
+    uri = URI(@api_base + relative_url)
     req = Net::HTTP::Post.new(uri)
     req.set_form_data(form_data) if form_data
     if request_body
