@@ -52,7 +52,8 @@ class Calendar
       # todo: factor out id
   attr_accessor :id
   
-  def initialize(id = JARVIS_TEST_CALENDAR_ID) 
+  def initialize(id) 
+    id ||= JARVIS_TEST_CALENDAR_ID
     @auth_token = Authentication.new.token
     @id = id
   end
