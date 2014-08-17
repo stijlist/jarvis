@@ -13,14 +13,15 @@ class Jarvis
   end
 
   # config.fetch(:streams).each do |stream|
-#     zulip.subscribe(stream)
+  #   zulip.subscribe(stream)
   # end
 
   zulip.send_message('jarvis-testing', config[:greeting], 'test-bot')
   
   zulip.stream_messages do |message|
     stream = message.stream
-    if message.content.match(/(\@jarvis|\@\*\*jarvis\*\*)/)
+    if message.content.match(/(\@jarvis|\@\*\*jarvis\*\*)/) and message.sender_email != ENV.fetch( 'ZULIP_JARVIS_EMAIL' )
+      zulip.send_message('calendars', cal.calendars.to_s, stream) and next if message.content.match(/active calendars/) 
       begin
         parsed_message = Listener.listen(message.content, message.sender_full_name)
         
