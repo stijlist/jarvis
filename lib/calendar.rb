@@ -47,15 +47,12 @@ class Authentication
 end
 
 class Calendar
-  JARVIS_TEST_CALENDAR_ID = "27oim6lpetk763ipds6au4cmgc@group.calendar.google.com"
-  API_BASE = "https://www.googleapis.com/calendar/v3/calendars/#{JARVIS_TEST_CALENDAR_ID}"
-      # todo: factor out id
   attr_accessor :id
   
-  def initialize(id) 
-    id ||= JARVIS_TEST_CALENDAR_ID
+  def initialize 
     @auth_token = Authentication.new.token
-    @id = id
+    @id = ENV.fetch( 'ZULIP_JARVIS_CALENDAR' )
+    @api_base = "https://www.googleapis.com/calendar/v3/calendars/#{@id}"
   end
 
 # Gets a list of events scheduled on a given calendar
