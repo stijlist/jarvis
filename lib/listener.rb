@@ -27,10 +27,14 @@ class Listener
     # Now downcase everything
     parsed_input = parsed_input.map {|word| word.downcase}
 
-    parsed_command = (COMMANDS & parsed_input)[0].to_sym # & -- set intersection
+    parsed_command = (COMMANDS & parsed_input)[0] # & -- set intersection
     parsed_room = (ROOMS & parsed_input)[0]
     parsed_time = Chronic.parse(command.gsub(/(\@jarvis|\@\*\*jarvis\*\*)/, "")) # chronic chokes on @jarvis
 
+    unless parsed_command
+      raise FailedToParse, "I didn't understand that command. Currently, I know how to reserve rooms. Try @jarvis reserve <room> at <time> for <description>."
+      puts "Failed to parse '#{command}' for command"
+    end
     unless parsed_room
       raise FailedToParse, "It appears that your query is underspecified. Try adding a valid room."
       puts "Failed to parse '#{command}' for room"
@@ -41,7 +45,7 @@ class Listener
     end
 
     parsed_date = DateTime.parse(parsed_time.to_s)
-    {command: parsed_command, 
+    {command: parsed_command.to_sym, 
      room: parsed_room,
      date: parsed_date,
      description: description}
