@@ -6,7 +6,7 @@ class Jarvis
   config = {greeting: 'Jarvis is online.',
             streams: File.read('./streams_filtered').lines.map(&:chomp)}
 
-  cal = Calendar.new(ENV['ZULIP_JARVIS_CALENDAR'])
+  cal = Calendar.new
   zulip = Zulip::Client.new do |config|
     config.email_address = ENV.fetch( 'ZULIP_JARVIS_EMAIL' )
     config.api_key = ENV.fetch( 'ZULIP_JARVIS_API_KEY' )
