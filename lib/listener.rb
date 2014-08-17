@@ -29,10 +29,16 @@ class Listener
 
     parsed_command = (COMMANDS & parsed_input)[0].to_sym # & -- set intersection
     parsed_room = (ROOMS & parsed_input)[0]
-    parsed_time = Chronic.parse(command.gsub!(/@jarvis/, "")) # chronic chokes on @jarvis
+    parsed_time = Chronic.parse(command.gsub(/(\@jarvis|\@\*\*jarvis\*\*)/, "")) # chronic chokes on @jarvis
 
-    raise FailedToParse, "It appears that your query is underspecified. Try adding a valid room." unless parsed_room
-    raise FailedToParse, "It appears that your query is underspecified. Perhaps you should use a more descriptive time format.\nFormats I understand: \n - today at 4pm \n - thurs at 2 \n - tomorrow at 16.25 \n - 2014-08-11 18:00:00 -0400" unless parsed_time
+    unless parsed_room
+      raise FailedToParse, "It appears that your query is underspecified. Try adding a valid room."
+      puts "Failed to parse '#{command}' for room"
+    end
+    unless parsed_time
+      raise FailedToParse, "It appears that your query is underspecified. Perhaps you should use a more descriptive time format.\nFormats I understand: \n - today at 4pm \n - thurs at 2 \n - tomorrow at 16.25 \n - 2014-08-11 18:00:00 -0400" 
+      puts "Failed to parse '#{command}' for time"
+    end
 
     parsed_date = DateTime.parse(parsed_time.to_s)
     {command: parsed_command, 
