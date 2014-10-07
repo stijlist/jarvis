@@ -135,7 +135,6 @@ private
 end
 
 class Authentication
-  JARVIS_SECRET_PATH = "../Jarvis-8746cc8b4449.json"
   JARVIS_GOOGLE_SCOPE = "https://www.googleapis.com/auth/calendar"
   GOOGLE_AUD_URL = "https://accounts.google.com/o/oauth2/token"
   GOOGLE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer"
