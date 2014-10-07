@@ -65,6 +65,7 @@ def add(start_time, end_time, room, description)
   if res['error']
     raise CouldNotAddEvent, message: "Error adding message" 
   end
+  puts JSON.parse(res.body)
   JSON.parse(res.body)
 end
 
