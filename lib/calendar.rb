@@ -62,7 +62,9 @@ def add(start_time, end_time, room, description)
   }.to_json
 
   res = post_api_request("/events", nil, params)
-  raise CouldNotAddEvent, message: "Error adding message" if res['error']
+  if res['error']
+    raise CouldNotAddEvent, message: "Error adding message" 
+  end
   JSON.parse(res.body)
 end
 
