@@ -62,11 +62,11 @@ def add(start_time, end_time, room, description)
   }.to_json
 
   res = post_api_request("/events", nil, params)
-  if res['error']
+  response = JSON.parse(res.body)
+  if response['error']
     raise CouldNotAddEvent, message: "Error adding message" 
   end
-  puts JSON.parse(res.body)
-  JSON.parse(res.body)
+  response
 end
 
 # Check whether a proposed event overlaps temporally/spatially with any already scheduled events
