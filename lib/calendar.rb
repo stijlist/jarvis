@@ -34,7 +34,7 @@ class Calendar
   def calendars
     calendars_url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=#{@auth_token}"
     response = Net::HTTP.get(URI(calendars_url))
-    puts response
+    # puts response
     JSON.parse(response).fetch('items').map {|item| item.fetch('summary') }
   end
 
@@ -77,7 +77,7 @@ end
 def bookable_for?(request_start, request_end, request_room)
 
     self.events.each do |event|
-      puts event
+      # puts event
       event_start = DateTime.rfc3339(event['start']['dateTime']) if event.fetch('start')['dateTime']
       event_end = DateTime.rfc3339(event['end']['dateTime']) if event.fetch('end')['dateTime']
       event_room = event['location']
