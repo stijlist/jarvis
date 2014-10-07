@@ -83,8 +83,15 @@ def bookable_for?(request_start, request_end, request_room)
       
 
       if event_can_be_checked_for_conflicts
-        event_start = DateTime.rfc3339(event['start']['dateTime'])
-        event_end = DateTime.rfc3339(event['end']['dateTime'])
+        begin
+          event_start = DateTime.rfc3339(event['start']['dateTime'])
+          event_end = DateTime.rfc3339(event['end']['dateTime'])
+        rescue ArgumentError => e
+          puts "Event start: #{event['start']} \n
+                Event end: #{event['end']}"
+          puts e.message
+          next # we got an invalid datetime from Google and can't make a comparison
+        end
         event_room = event['location']
         
         if event_room == request_room
