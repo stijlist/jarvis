@@ -77,13 +77,16 @@ end
 def bookable_for?(request_start, request_end, request_room)
 
     self.events.each do |event|
-      # puts event
-      event_start = DateTime.rfc3339(event['start']['dateTime']) if event.fetch('start')['dateTime']
-      event_end = DateTime.rfc3339(event['end']['dateTime']) if event.fetch('end')['dateTime']
-      event_room = event['location']
+
+      event_can_be_checked_for_conflicts = 
+        event['start'] and event['start']['dateTime'] and event['end'] and event['end']['dateTime'] and event['location']
       
-      if event_start and event_end and event_room  # else something hasn't been specified for event, and it can't overlap?
-                                                    # or it's just a date -- do we care?
+
+      if event_can_be_checked_for_conflicts
+        event_start = DateTime.rfc3339(event['start']['dateTime'])
+        event_end = DateTime.rfc3339(event['end']['dateTime'])
+        event_room = event['location']
+        
         if event_room == request_room
           
           # not (end1 < start2 or end2 < start1) --- (http://c2.com/cgi/wiki?TestIfDateRangesOverlap)
@@ -94,6 +97,7 @@ def bookable_for?(request_start, request_end, request_room)
         end    
       end
     end
+
     return true
 end
 
