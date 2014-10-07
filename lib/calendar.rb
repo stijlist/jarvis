@@ -61,6 +61,7 @@ def add(start_time, end_time, room, description)
   }.to_json
 
   res = post_api_request("/events", nil, params)
+  puts JSON.parse(res.body)
   JSON.parse(res.body)
 end
 
