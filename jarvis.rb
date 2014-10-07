@@ -17,7 +17,9 @@ class Jarvis
   # end
 
   zulip.send_message('jarvis-testing', config[:greeting], 'test-bot')
-  calendar_info = "Jarvis is configured to post to calendar \"#{cal.calendars}\""
+  access_info = "Jarvis can post to the calendars #{cal.calendars}"
+  zulip.send_message('jarvis-testing', access_info, 'test-bot')
+  calendar_info = "Jarvis is configured to post to the calendar #{cal.id}"
   zulip.send_message('jarvis-testing', calendar_info, 'test-bot')
   
   zulip.stream_messages do |message|
