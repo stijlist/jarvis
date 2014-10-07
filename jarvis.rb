@@ -40,7 +40,7 @@ class Jarvis
         else
           response = "#{room} is busy #{request_start.strftime("at %H:%M on %A, %B %d")}."
         end
-      rescue Listener::FailedToParse => e
+      rescue Listener::FailedToParse, Calendar::CouldNotAddEvent => e
         response = e.message
       end
 

@@ -10,6 +10,7 @@ require 'digest/sha2'
 require 'openssl'
 
 class Calendar
+  class CouldNotAddEvent < StandardError; end
   attr_accessor :id
   
   def initialize 
@@ -61,7 +62,7 @@ def add(start_time, end_time, room, description)
   }.to_json
 
   res = post_api_request("/events", nil, params)
-  puts JSON.parse(res.body)
+  raise CouldNotAddEvent, message: "Error adding message" if res['error']
   JSON.parse(res.body)
 end
 
@@ -87,10 +88,9 @@ def bookable_for?(request_start, request_end, request_room)
         begin
           event_start = DateTime.rfc3339(event['start']['dateTime'])
           event_end = DateTime.rfc3339(event['end']['dateTime'])
-        rescue ArgumentError => e
-          # puts "Event start: #{event['start']} \n
-          #       Event end: #{event['end']}"
-          next # we got an invalid datetime from Google and can't make a comparison
+        rescue ArgumentError
+          # we got an non-rfc3339 datetime and can't make a comparison
+          next 
         end
         event_room = event['location']
         
