@@ -17,21 +17,19 @@ class Jarvis
   # end
 
   zulip.send_message('jarvis-testing', config[:greeting], 'test-bot')
-  access_info = "Jarvis can post to the calendars #{cal.calendars}"
+  access_info = "Jarvis can post to the calendars #{cal.calendars_summary}"
   zulip.send_message('jarvis-testing', access_info, 'test-bot')
   calendar_info = "Jarvis is configured to post to the calendar #{cal.id}"
   zulip.send_message('jarvis-testing', calendar_info, 'test-bot')
 
   unless cal.calendars.map { |c| c['id'] }.include?(cal.id) 
     jarvis_username = ENV['GOOGLE_JARVIS_CLIENT_EMAIL']
-    config_help = <<-eos
-      Jarvis cannot post to the desired calendar (#{cal.id})! 
-      [Share](https://support.google.com/calendar/answer/37082) 
-      your calendar with Jarvis (his google username is #{jarvis_username}),
-      and then set the environment variable `JARVIS_CALENDAR_ID` to 
-      your google calendar address on 
-      [Heroku](https://dashboard-next.heroku.com/apps/jarvis-hs/settings).
-    eos
+    config_help = "Jarvis cannot post to the desired calendar (#{cal.id})!" +
+      "[Share](https://support.google.com/calendar/answer/37082)" +     
+      "your calendar with Jarvis (his google username is #{jarvis_username})," +
+      "and then set the environment variable `JARVIS_CALENDAR_ID` to" +
+      "your google calendar address on [Heroku]" +
+      "(https://dashboard-next.heroku.com/apps/jarvis-hs/settings)."
     zulip.send_message('jarvis-testing', config_help, 'test-bot')
   end
   
