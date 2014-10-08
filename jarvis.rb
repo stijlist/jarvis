@@ -25,7 +25,8 @@ class Jarvis
 
   unless cal.calendars.map { |c| c['id'] }.include?(cal.id) 
     jarvis_username = ENV['GOOGLE_JARVIS_CLIENT_EMAIL']
-    config_help = "Jarvis cannot post to the desired calendar (#{cal.id})! " +
+    config_help = "`WARNING:`" +
+      "Jarvis cannot post to the desired calendar (#{cal.id})! " +
       "[Share](https://support.google.com/calendar/answer/37082) " +     
       "your calendar with Jarvis (his google username is #{jarvis_username}), " +
       "and then set the environment variable `JARVIS_CALENDAR_ID` to " +
