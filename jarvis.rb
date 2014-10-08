@@ -4,7 +4,8 @@ require 'zulip'
 
 class Jarvis
   config = {greeting: 'Jarvis is online.',
-            streams: File.read('./streams_filtered').lines.map(&:chomp)}
+            streams: File.read('./streams_filtered').lines.map(&:chomp),
+            diagnostics_stream: ENV.fetch( 'ZULIP_JARVIS_DIAGNOSTICS_STREAM' )}
 
   cal = Calendar.new
   zulip = Zulip::Client.new do |config|
@@ -16,21 +17,21 @@ class Jarvis
   #   zulip.subscribe(stream)
   # end
 
-  zulip.send_message('jarvis-testing', config[:greeting], 'test-bot')
+  zulip.send_message('jarvis-testing', config[:greeting], config[:diagnostics_stream])
   access_info = "Jarvis can post to the calendars #{cal.calendars_summary}"
-  zulip.send_message('jarvis-testing', access_info, 'test-bot')
+  zulip.send_message('jarvis-testing', access_info, config[:diagnostics_stream])
   calendar_info = "Jarvis is configured to post to the calendar #{cal.id}"
-  zulip.send_message('jarvis-testing', calendar_info, 'test-bot')
+  zulip.send_message('jarvis-testing', calendar_info, config[:diagnostics_stream])
 
   unless cal.calendars.map { |c| c['id'] }.include?(cal.id) 
     jarvis_username = ENV['GOOGLE_JARVIS_CLIENT_EMAIL']
     config_help = "Jarvis cannot post to the desired calendar (#{cal.id})! " +
-      "[Share](https://support.google.com/calendar/answer/37082)" +     
+      "[Share](https://support.google.com/calendar/answer/37082) " +     
       "your calendar with Jarvis (his google username is #{jarvis_username}), " +
       "and then set the environment variable `JARVIS_CALENDAR_ID` to " +
       "your google calendar address on [Heroku]" +
       "(https://dashboard-next.heroku.com/apps/jarvis-hs/settings)."
-    zulip.send_message('jarvis-testing', config_help, 'test-bot')
+    zulip.send_message('jarvis-testing', config_help, config[:diagnostics_stream])
   end
   
   zulip.stream_messages do |message|
