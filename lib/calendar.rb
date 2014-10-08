@@ -35,7 +35,13 @@ class Calendar
   def calendars
     calendars_url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=#{@auth_token}"
     response = Net::HTTP.get(URI(calendars_url))
-    JSON.parse(response).fetch('items').map {|item| "#{item.fetch('summary')}, accessLevel: #{item.fetch('accessRole')}" }
+    JSON.parse(response).fetch('items')
+  end
+
+  def calendars_summary
+    calendars.map do |item|
+      "#{item.fetch('summary')} (#{item.fetch('id')}), accessLevel: #{item.fetch('accessRole')}" 
+    end.join("\n")
   end
 
 # Add a calendar event
