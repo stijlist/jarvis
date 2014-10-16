@@ -2,7 +2,7 @@ require_relative './lib/listener.rb'
 require_relative './lib/calendar.rb'
 require 'zulip'
 
-class Jarvis
+module Jarvis
   config = {greeting: 'Jarvis is online.',
             streams: File.read('./streams_filtered').lines.map(&:chomp),
             diagnostics_stream: ENV.fetch( 'ZULIP_JARVIS_DIAGNOSTICS_STREAM' )}
@@ -18,22 +18,7 @@ class Jarvis
   # end
 
   zulip.send_message('jarvis-testing', config[:greeting], config[:diagnostics_stream])
-  access_info = "Jarvis can post to the calendars #{cal.calendars_summary}"
-  zulip.send_message('jarvis-testing', access_info, config[:diagnostics_stream])
-  calendar_info = "Jarvis is configured to post to the calendar #{cal.id}"
-  zulip.send_message('jarvis-testing', calendar_info, config[:diagnostics_stream])
-
-  unless cal.calendars.map { |c| c['id'] }.include?(cal.id) 
-    jarvis_username = ENV['GOOGLE_JARVIS_CLIENT_EMAIL']
-    config_help = "`WARNING:`" +
-      "Jarvis cannot post to the desired calendar (#{cal.id})! " +
-      "[Share](https://support.google.com/calendar/answer/37082) " +     
-      "your calendar with Jarvis (his google username is #{jarvis_username}), " +
-      "and then set the environment variable `JARVIS_CALENDAR_ID` to " +
-      "your google calendar address on [Heroku]" +
-      "(https://dashboard-next.heroku.com/apps/jarvis-hs/settings)."
-    zulip.send_message('jarvis-testing', config_help, config[:diagnostics_stream])
-  end
+  zulip.send_message('jarvis-testing', cal.diagnostics, config[:diagnostics_stream])
   
   zulip.stream_messages do |message|
     stream = message.stream
@@ -62,5 +47,4 @@ class Jarvis
       zulip.send_message(message.subject, response, stream)
     end
   end
-      
 end
