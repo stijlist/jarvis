@@ -3,13 +3,14 @@ require_relative './lib/calendar.rb'
 require 'zulip'
 
 module Jarvis
+  email = ENV.fetch( 'ZULIP_JARVIS_EMAIL' )
   config = {greeting: 'Jarvis is online.',
             streams: File.read('./streams_filtered').lines.map(&:chomp),
             diagnostics_stream: ENV.fetch( 'ZULIP_JARVIS_DIAGNOSTICS_STREAM' )}
 
   cal = Calendar.new
   zulip = Zulip::Client.new do |config|
-    config.email_address = ENV.fetch( 'ZULIP_JARVIS_EMAIL' )
+    config.email_address = email
     config.api_key = ENV.fetch( 'ZULIP_JARVIS_API_KEY' )
   end
 
@@ -22,7 +23,7 @@ module Jarvis
   
   zulip.stream_messages do |message|
     stream = message.stream
-    if message.content.match(/(\@jarvis|\@\*\*jarvis\*\*)/) and message.sender_email != ENV.fetch( 'ZULIP_JARVIS_EMAIL' )
+    if message.content.match(/(\@jarvis|\@\*\*jarvis\*\*)/) and message.sender_email != email
       zulip.send_message('calendars', cal.calendars.to_s, stream) and next if message.content.match(/active calendars/) 
       begin
         parsed_message = Listener.listen(message.content, message.sender_full_name)

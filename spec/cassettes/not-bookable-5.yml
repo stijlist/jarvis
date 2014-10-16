@@ -1,0 +1,425 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.googleapis.com/calendar/v3/calendars/<GOOGLE_JARVIS_CALENDAR_ID>/events?access_token=ya29.oAAWjgmv9YDW1p9C2L5WE3F0eX3O0M-lqouZ3gTnvEapuMooTuXpSenT
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Host:
+      - www.googleapis.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Expires:
+      - Thu, 16 Oct 2014 21:38:25 GMT
+      Date:
+      - Thu, 16 Oct 2014 21:38:25 GMT
+      Cache-Control:
+      - private, max-age=0, must-revalidate, no-transform
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '11376'
+      Server:
+      - GSE
+      Alternate-Protocol:
+      - 443:quic,p=0.01
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "kind": "calendar#events",
+         "etag": "\"1413495503941000\"",
+         "summary": "Jarvis Demo",
+         "description": "",
+         "updated": "2014-10-16T21:38:23.941Z",
+         "timeZone": "America/New_York",
+         "accessRole": "owner",
+         "defaultReminders": [],
+         "nextSyncToken": "CIjbnYuRssECEIjbnYuRssECGAU=",
+         "items": [
+          {
+           "kind": "calendar#event",
+           "etag": "\"2825782942894000\"",
+           "id": "kj4sormhtdnfb4dr5q64jgupik",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=a2o0c29ybWh0ZG5mYjRkcjVxNjRqZ3VwaWsgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-09T21:51:11.000Z",
+           "updated": "2014-10-09T21:51:11.447Z",
+           "summary": "fun today at 5:30pm",
+           "location": "Hopper",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-10-09T17:30:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-10-09T18:30:00-04:00"
+           },
+           "iCalUID": "kj4sormhtdnfb4dr5q64jgupik@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2825788285250000\"",
+           "id": "p1bj2sgvecnuhivimpbqbo2kc4",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=cDFiajJzZ3ZlY251aGl2aW1wYnFibzJrYzQgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-09T22:35:42.000Z",
+           "updated": "2014-10-09T22:35:42.625Z",
+           "summary": "poker",
+           "location": "Hopper",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-10-09T20:00:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-10-09T21:00:00-04:00"
+           },
+           "iCalUID": "p1bj2sgvecnuhivimpbqbo2kc4@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826847493290000\"",
+           "id": "7fh7hkeji3glkdb7qgp2tc8h5g",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=N2ZoN2hrZWppM2dsa2RiN3FncDJ0YzhoNWcgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T01:42:26.000Z",
+           "updated": "2014-10-16T01:42:26.645Z",
+           "summary": "fun",
+           "location": "Hopper",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-10-15T17:00:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-10-15T18:00:00-04:00"
+           },
+           "iCalUID": "7fh7hkeji3glkdb7qgp2tc8h5g@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826847745750000\"",
+           "id": "qp4fkvqremb7co2gmmkq75qq38",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=cXA0Zmt2cXJlbWI3Y28yZ21ta3E3NXFxMzggbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T01:44:32.000Z",
+           "updated": "2014-10-16T01:44:32.875Z",
+           "summary": "fun",
+           "location": "Hopper",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-10-15T19:00:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-10-15T20:00:00-04:00"
+           },
+           "iCalUID": "qp4fkvqremb7co2gmmkq75qq38@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826956625476000\"",
+           "id": "prerdai8e2a5dia13lqt98sdik",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=cHJlcmRhaThlMmE1ZGlhMTNscXQ5OHNkaWsgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T16:51:52.000Z",
+           "updated": "2014-10-16T16:51:52.738Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "prerdai8e2a5dia13lqt98sdik@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826958634462000\"",
+           "id": "iptkukf5rdvhst4jr4j3btgdoo",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=aXB0a3VrZjVyZHZoc3Q0anI0ajNidGdkb28gbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T17:08:37.000Z",
+           "updated": "2014-10-16T17:08:37.231Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "iptkukf5rdvhst4jr4j3btgdoo@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826958704586000\"",
+           "id": "oern85kqcrge2sk96qpla04i0g",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=b2Vybjg1a3FjcmdlMnNrOTZxcGxhMDRpMGcgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T17:09:12.000Z",
+           "updated": "2014-10-16T17:09:12.293Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "oern85kqcrge2sk96qpla04i0g@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826960378438000\"",
+           "id": "mci1vk8fuah261cckmt5gr9dhc",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=bWNpMXZrOGZ1YWgyNjFjY2ttdDVncjlkaGMgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T17:23:09.000Z",
+           "updated": "2014-10-16T17:23:09.219Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "mci1vk8fuah261cckmt5gr9dhc@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826960417508000\"",
+           "id": "gbdcr5od8k2i4i072epla0qu1k",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=Z2JkY3I1b2Q4azJpNGkwNzJlcGxhMHF1MWsgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T17:23:28.000Z",
+           "updated": "2014-10-16T17:23:28.754Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "gbdcr5od8k2i4i072epla0qu1k@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826990245702000\"",
+           "id": "0d8avl3hrbovdhi16aqi2o5k7c",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=MGQ4YXZsM2hyYm92ZGhpMTZhcWkybzVrN2MgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T21:32:02.000Z",
+           "updated": "2014-10-16T21:32:02.851Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "0d8avl3hrbovdhi16aqi2o5k7c@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826990533726000\"",
+           "id": "apa7gg129b9fpk7hb75v9qir5o",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=YXBhN2dnMTI5YjlmcGs3aGI3NXY5cWlyNW8gbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T21:34:26.000Z",
+           "updated": "2014-10-16T21:34:26.863Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "apa7gg129b9fpk7hb75v9qir5o@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"2826991007650000\"",
+           "id": "4pjuc3euajqh7cdv1dkuv4i2ks",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=NHBqdWMzZXVhanFoN2NkdjFka3V2NGkya3MgbW9hdjJqcWpxNThjbzU1bDBzbmxxMzdiMWtAZw",
+           "created": "2014-10-16T21:38:23.000Z",
+           "updated": "2014-10-16T21:38:23.825Z",
+           "summary": "algebraic data types party!",
+           "location": "Babbage",
+           "creator": {
+            "email": "<GOOGLE_JARVIS_CLIENT_EMAIL>"
+           },
+           "organizer": {
+            "email": "<GOOGLE_JARVIS_CALENDAR_ID>",
+            "displayName": "Jarvis Demo",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2014-08-09T06:35:00-04:00"
+           },
+           "end": {
+            "dateTime": "2014-08-09T07:35:00-04:00"
+           },
+           "iCalUID": "4pjuc3euajqh7cdv1dkuv4i2ks@google.com",
+           "sequence": 0,
+           "reminders": {
+            "useDefault": true
+           }
+          }
+         ]
+        }
+    http_version: 
+  recorded_at: Thu, 16 Oct 2014 21:38:25 GMT
+recorded_with: VCR 2.9.2
