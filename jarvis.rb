@@ -14,6 +14,7 @@ module Jarvis
     config.api_key = ENV.fetch( 'ZULIP_JARVIS_API_KEY' )
   end
 
+  # TODO: subscribe to notifications of new stream creation
   # config.fetch(:streams).each do |stream|
   #   zulip.subscribe(stream)
   # end

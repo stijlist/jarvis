@@ -1,13 +1,13 @@
-# insert event into calendar, at given time, in given room
-# default to one hour
-# use organizer name
-
 require 'date'
 require 'json'
 require 'jwt'
 require 'net/http'
 require 'digest/sha2'
 require 'openssl'
+
+# insert event into calendar, at given time, in given room
+# default to one hour
+# use organizer name
 
 class Calendar
   class CouldNotAddEvent < StandardError; end
@@ -170,43 +170,44 @@ private
     end
     JSON.parse(res.body)
   end
+
+  class Authenticator
+    JARVIS_GOOGLE_SCOPE = "https://www.googleapis.com/auth/calendar"
+    GOOGLE_AUD_URL = "https://accounts.google.com/o/oauth2/token"
+    GOOGLE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+    
+    def self.fetch_token
+      uri = URI(GOOGLE_AUD_URL)
+      grant_type = GOOGLE_GRANT_TYPE
+      response_body = Net::HTTP.post_form(uri, {grant_type: grant_type,
+                                                 assertion: make_jwt}).body
+      response_dict = JSON.parse(response_body)
+      response_dict["access_token"]
+    end
+
+    def self.token
+      @@token ||= fetch_token
+      @@token
+    end
+
+    # Creates a JSON web token according to Google API specifications
+    #
+    # Returns the jwt   
+    def self.make_jwt
+      iss = ENV.fetch('GOOGLE_JARVIS_CLIENT_EMAIL') 
+      iat = DateTime.now.to_time.strftime('%s').to_i
+      exp = iat + 60 * 60 # expires 1 hour (60*60) from now
+      jwt_claim = {
+        "iss" => iss,
+        "scope" => JARVIS_GOOGLE_SCOPE,
+        "aud" => GOOGLE_AUD_URL,
+        "exp" => exp,
+        "iat" => iat
+      }
+
+      ssl_key = OpenSSL::PKey::RSA.new ENV.fetch('GOOGLE_JARVIS_PRIVATE_KEY') 
+      JWT.encode(jwt_claim, ssl_key, "RS256")
+    end
+  end
 end
 
-class Authenticator
-  JARVIS_GOOGLE_SCOPE = "https://www.googleapis.com/auth/calendar"
-  GOOGLE_AUD_URL = "https://accounts.google.com/o/oauth2/token"
-  GOOGLE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer"
-  
-  def self.fetch_token
-    uri = URI(GOOGLE_AUD_URL)
-    grant_type = GOOGLE_GRANT_TYPE
-    response_body = Net::HTTP.post_form(uri, {grant_type: grant_type,
-                                               assertion: make_jwt}).body
-    response_dict = JSON.parse(response_body)
-    response_dict["access_token"]
-  end
-
-  def self.token
-    @@token ||= fetch_token
-    @@token
-  end
-
-  # Creates a JSON web token according to Google API specifications
-  #
-  # Returns the jwt   
-  def self.make_jwt
-    iss = ENV.fetch('GOOGLE_JARVIS_CLIENT_EMAIL') 
-    iat = DateTime.now.to_time.strftime('%s').to_i
-    exp = iat + 60 * 60 # expires 1 hour (60*60) from now
-    jwt_claim = {
-      "iss" => iss,
-      "scope" => JARVIS_GOOGLE_SCOPE,
-      "aud" => GOOGLE_AUD_URL,
-      "exp" => exp,
-      "iat" => iat
-    }
-
-    ssl_key = OpenSSL::PKey::RSA.new ENV.fetch('GOOGLE_JARVIS_PRIVATE_KEY') 
-    JWT.encode(jwt_claim, ssl_key, "RS256")
-  end
-end
